@@ -89,6 +89,9 @@ func (GuestResource) mapToStruct(params []interface{}) []GuestResource {
 		if _, isSet := tmpParams["node"]; isSet {
 			resources[i].Node = tmpParams["node"].(string)
 		}
+    if _, isSet := tmpParams["pool"]; isSet {
+      resources[i].Pool = PoolName(tmpParams["pool"].(string))
+    }
 		if _, isSet := tmpParams["status"]; isSet {
 			resources[i].Status = tmpParams["status"].(string)
 		}
