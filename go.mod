@@ -1,4 +1,4 @@
-module github.com/Crisu1710/proxmox-api-go
+module github.com/Telmate/proxmox-api-go
 
 go 1.21
 
