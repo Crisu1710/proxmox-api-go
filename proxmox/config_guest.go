@@ -291,6 +291,22 @@ func ListGuests(ctx context.Context, client *Client) ([]GuestResource, error) {
 	return GuestResource{}.mapToStruct(list), nil
 }
 
+func ListNodes(ctx context.Context, client *Client) ([]GuestResource, error) {
+	list, err := client.GetResourceList(ctx, "node")
+	if err != nil {
+		return nil, err
+	}
+	return GuestResource{}.mapToStruct(list), nil
+}
+
+func ListStorages(ctx context.Context, client *Client) ([]GuestResource, error) {
+	list, err := client.GetResourceList(ctx, "storage")
+	if err != nil {
+		return nil, err
+	}
+	return GuestResource{}.mapToStruct(list), nil
+}
+
 func pendingGuestConfigFromApi(ctx context.Context, vmr *VmRef, client *Client) ([]interface{}, error) {
 	if err := client.CheckVmRef(ctx, vmr); err != nil {
 		return nil, err
