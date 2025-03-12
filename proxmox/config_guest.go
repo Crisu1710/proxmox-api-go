@@ -33,6 +33,7 @@ type GuestResource struct {
 	Node               string    `json:"node"` // TODO custom type
 	Pool               PoolName  `json:"pool"`
 	Status             string    `json:"status"` // TODO custom type?
+	Storage            string    `json:"storage"`
 	Tags               []Tag     `json:"tags"`
 	Template           bool      `json:"template"`
 	Type               GuestType `json:"type"`
@@ -89,11 +90,14 @@ func (GuestResource) mapToStruct(params []interface{}) []GuestResource {
 		if _, isSet := tmpParams["node"]; isSet {
 			resources[i].Node = tmpParams["node"].(string)
 		}
-    if _, isSet := tmpParams["pool"]; isSet {
-      resources[i].Pool = PoolName(tmpParams["pool"].(string))
-    }
+		if _, isSet := tmpParams["pool"]; isSet {
+			resources[i].Pool = PoolName(tmpParams["pool"].(string))
+		}
 		if _, isSet := tmpParams["status"]; isSet {
 			resources[i].Status = tmpParams["status"].(string)
+		}
+		if _, isSet := tmpParams["storage"]; isSet {
+			resources[i].Storage = tmpParams["storage"].(string)
 		}
 		if _, isSet := tmpParams["tags"]; isSet {
 			resources[i].Tags = Tag("").mapToSDK(tmpParams["tags"].(string))
