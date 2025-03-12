@@ -33,6 +33,7 @@ type GuestResource struct {
 	Node               string    `json:"node"` // TODO custom type
 	Pool               PoolName  `json:"pool"`
 	Status             string    `json:"status"` // TODO custom type?
+	Storage            string    `json:"storage"`
 	Tags               []Tag     `json:"tags"`
 	Template           bool      `json:"template"`
 	Type               GuestType `json:"type"`
@@ -89,11 +90,14 @@ func (GuestResource) mapToStruct(params []interface{}) []GuestResource {
 		if _, isSet := tmpParams["node"]; isSet {
 			resources[i].Node = tmpParams["node"].(string)
 		}
-    if _, isSet := tmpParams["pool"]; isSet {
-      resources[i].Pool = PoolName(tmpParams["pool"].(string))
-    }
+		if _, isSet := tmpParams["pool"]; isSet {
+			resources[i].Pool = PoolName(tmpParams["pool"].(string))
+		}
 		if _, isSet := tmpParams["status"]; isSet {
 			resources[i].Status = tmpParams["status"].(string)
+		}
+		if _, isSet := tmpParams["storage"]; isSet {
+			resources[i].Storage = tmpParams["storage"].(string)
 		}
 		if _, isSet := tmpParams["tags"]; isSet {
 			resources[i].Tags = Tag("").mapToSDK(tmpParams["tags"].(string))
@@ -285,6 +289,22 @@ func ListGuestFeatures(ctx context.Context, vmr *VmRef, client *Client) (feature
 // List all guest the user has viewing rights for in the cluster
 func ListGuests(ctx context.Context, client *Client) ([]GuestResource, error) {
 	list, err := client.GetResourceList(ctx, "vm")
+	if err != nil {
+		return nil, err
+	}
+	return GuestResource{}.mapToStruct(list), nil
+}
+
+func ListNodes(ctx context.Context, client *Client) ([]GuestResource, error) {
+	list, err := client.GetResourceList(ctx, "node")
+	if err != nil {
+		return nil, err
+	}
+	return GuestResource{}.mapToStruct(list), nil
+}
+
+func ListStorages(ctx context.Context, client *Client) ([]GuestResource, error) {
+	list, err := client.GetResourceList(ctx, "storage")
 	if err != nil {
 		return nil, err
 	}
