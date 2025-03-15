@@ -351,12 +351,8 @@ func (c *Client) GetStorageStatus(ctx context.Context, vmr *VmRef, storageName s
 	return
 }
 
-func (c *Client) GetStorageContent(ctx context.Context, vmr *VmRef, storageName string) (data map[string]interface{}, err error) {
-	err = c.CheckVmRef(ctx, vmr)
-	if err != nil {
-		return nil, err
-	}
-	url := fmt.Sprintf("/nodes/%s/storage/%s/content", vmr.node, storageName)
+func (c *Client) GetStorageContent(ctx context.Context, node string, storageName string) (data map[string]interface{}, err error) {
+	url := fmt.Sprintf("/nodes/%s/storage/%s/content", node, storageName)
 	err = c.GetJsonRetryable(ctx, url, &data, 3)
 	if err != nil {
 		return nil, err
